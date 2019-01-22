@@ -1,0 +1,10 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
+
+#logging:
+#  config: classpath:log4j2.xml_bak
+##  level:
+##    root: all

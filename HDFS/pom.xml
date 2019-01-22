@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.bigdata</groupId>
-    <artifactId>firstdemo</artifactId>
+    <artifactId>HDFS</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>firstdemo</name>
+    <name>HDFS</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
