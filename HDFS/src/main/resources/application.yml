@@ -3,6 +3,11 @@ spring:
     ansi:
       enabled: ALWAYS
 
+word:
+  path:
+    input:  /test01/
+    output: /result/res.txt
+
 
 #logging:
 #  config: classpath:log4j2.xml_bak
