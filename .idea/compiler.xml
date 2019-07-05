@@ -6,11 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="HDFS" />
+        <module name="common" />
+        <module name="flume" />
+        <module name="kafka" />
+        <module name="resources" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="HDFS" target="1.8" />
+      <module name="bigdata" target="1.8" />
+      <module name="common" target="1.8" />
+      <module name="flume" target="1.8" />
+      <module name="kafka" target="1.8" />
+      <module name="resources" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
