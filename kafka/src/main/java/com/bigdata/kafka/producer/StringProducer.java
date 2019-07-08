@@ -4,6 +4,8 @@ package com.bigdata.kafka.producer;
 import com.bigdata.kafka.config.KafkaConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +23,11 @@ public class StringProducer {
         ProducerRecord<String, String> keyedMessage = new ProducerRecord<>(topic, record);
         producer.send(keyedMessage);
         LOG.info("发送数据"+record+"到kafka成功");
-        producer.close();
+//        producer.close();
+    }
+
+    public static void main(String[] args) {
+        producer("test01","hello kafka");
     }
 
 }

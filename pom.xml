@@ -38,6 +38,18 @@
           <id>cloudera</id>
           <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
       </repository>
+      <repository>
+          <id>maven-ali</id>
+          <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+          <!--<releases>-->
+              <!--<enabled>true</enabled>-->
+          <!--</releases>-->
+          <!--<snapshots>-->
+              <!--<enabled>true</enabled>-->
+              <!--<updatePolicy>always</updatePolicy>-->
+              <!--<checksumPolicy>fail</checksumPolicy>-->
+          <!--</snapshots>-->
+      </repository>
   </repositories>
 
   <dependencies>

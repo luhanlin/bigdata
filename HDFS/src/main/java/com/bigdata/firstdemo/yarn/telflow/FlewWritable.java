@@ -1,6 +1,6 @@
 package com.bigdata.firstdemo.yarn.telflow;
 
-import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableComparable;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * @see [相关类/方法]
  * @since [产品/模块版本]
  */
-public class FlewWritable implements Writable {
+public class FlewWritable implements WritableComparable<FlewWritable> {
 
     private long flewIn;
     private long flewOut;
@@ -54,7 +54,13 @@ public class FlewWritable implements Writable {
     @Override
     public String toString() {
         return "flewIn=" + flewIn +
-                ", flewOut=" + flewOut +
-                ", flewSum=" + flewSum;
+                "\t flewOut=" + flewOut +
+                "\t flewSum=" + flewSum;
+    }
+
+    @Override
+    public int compareTo(FlewWritable flewWritable) {
+        // 倒序
+        return this.flewSum >= flewWritable.flewSum ? -1 : 1;
     }
 }

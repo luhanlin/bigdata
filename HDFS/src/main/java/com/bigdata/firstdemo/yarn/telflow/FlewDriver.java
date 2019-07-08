@@ -4,6 +4,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
@@ -39,9 +40,19 @@ public class FlewDriver {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
 
+        // 设定读取数据切片的类
+//        job.setInputFormatClass(CombineTextInputFormat.class);
+//        CombineTextInputFormat.setMinInputSplitSize(job, 10485760L); // 10M
+//        CombineTextInputFormat.setMinInputSplitSize(job, 6291456L);  // 6M
+
+        // 设定自定义分区大小
+        job.setPartitionerClass(CustomPartitioner.class);
+        job.setNumReduceTasks(5);
+
         // 5. 设定读取文件路径和输出结果文件路径
         FileInputFormat.setInputPaths(job,new Path("E:/big_data/mapreducetest/flew/input"));
-        FileOutputFormat.setOutputPath(job, new Path("E:/big_data/mapreducetest/flew/output"));
+//        FileOutputFormat.setOutputPath(job, new Path("E:/big_data/mapreducetest/flew/output"));
+        FileOutputFormat.setOutputPath(job, new Path("E:/big_data/mapreducetest/flew/output2"));
 
         job.waitForCompletion(true);
     }
