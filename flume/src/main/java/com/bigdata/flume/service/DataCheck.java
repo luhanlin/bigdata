@@ -155,7 +155,7 @@ public class DataCheck {
         errorMap.put(ErrorMapFields.FILENAME, fileName);
         errorMap.put(ErrorMapFields.ABSOLUTE_FILENAME, absoluteFilename);
         errorMap.put(ErrorMapFields.RKSJ, TimeTranslationUtils.Date2yyyy_MM_dd_HH_mm_ss());
-        String url="http://192.168.247.101:9200/error_recourd/error_recourd/"+ errorMap.get(MapFields.ID).toString();
+        String url="http://192.168.134.121:9200/error_recourd/error_recourd/"+ errorMap.get(MapFields.ID).toString();
         String json = JSON.toJSONString(errorMap);
         HttpRequest.sendPost(url,json);
         //HttpRequest.sendPostMessage(url, errorMap);

@@ -27,7 +27,7 @@ object KafkaClusterTest extends Serializable with Logging{
 
   def main(args: Array[String]): Unit = {
      //获取消费者着组名
-     val groupId = "console-consumer-20586"
+     val groupId = "consumer2"
     //获取kafka本身的偏移量  Either类型可以认为就是封装了2钟信息
     val partitionsE = kc.getPartitions(Set(topic))
     require(partitionsE.isRight,s"获取partion失败")
@@ -60,10 +60,4 @@ object KafkaClusterTest extends Serializable with Logging{
     println("打印消费者偏移量")
     consumerOffsets.foreach(println(_))
   }
-
-
-
-
-
-
 }

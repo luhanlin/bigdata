@@ -1,6 +1,6 @@
 package org.apache.spark.streaming.kafka
 
-import com.alibaba.fastjson.TypeReference
+import com.alibaba.fastjson.{JSON, TypeReference}
 import kafka.common.TopicAndPartition
 import kafka.message.MessageAndMetadata
 import kafka.serializer.{Decoder, StringDecoder}
@@ -49,9 +49,9 @@ class KafkaManager(val kafkaParams: Map[String, String],
     // 在zookeeper上读取offsets前先根据实际情况更新offsets
     setOrUpdateOffsets(topics, groupId)
 
-    //从zookeeper上读取offset开始消费message
+    //把所有的offsets處理完成，就可以从zookeeper上读取offset开始消费message
     val messages = {
-      //获取分区
+      //获取kafka分区信息  为了打印信息
       val partitionsE = kc.getPartitions(topics)
       require(partitionsE.isRight,s"获取 kafka topic ${topics}`s partition 失败。" )
       val partitions = partitionsE.right.get
@@ -87,26 +87,29 @@ class KafkaManager(val kafkaParams: Map[String, String],
     */
   private def setOrUpdateOffsets(topics: Set[String], groupId: String): Unit = {
     topics.foreach(topic => {
+
       //获取kafka  partions的节点信息
       val partitionsE = kc.getPartitions(Set(topic))
       logInfo(partitionsE+"")
       //检测
       require(partitionsE.isRight, s"获取 kafka topic ${topic}`s partition 失败。")
       val partitions = partitionsE.right.get
-      //获取消费者组的 offsets信息
-      val consumerOffsetsE = kc.getConsumerOffsets(groupId, partitions)
+
       //获取最早的 partions offsets信息
       val earliestLeader = kc.getEarliestLeaderOffsets(partitions)
       val earliestLeaderOffsets = earliestLeader.right.get
       println("kafka中最早的消息偏移")
       earliestLeaderOffsets.foreach(println(_))
+
+
       //获取最末的 partions offsets信息
       val latestLeader = kc.getLatestLeaderOffsets(partitions)
       val latestLeaderOffsets = latestLeader.right.get
       println("kafka中最末的消息偏移")
       latestLeaderOffsets.foreach(println(_))
 
-
+      //获取消费者组的 offsets信息
+      val consumerOffsetsE = kc.getConsumerOffsets(groupId, partitions)
       //如果消费者offset存在
       if (consumerOffsetsE.isRight) {
         /**
@@ -115,6 +118,7 @@ class KafkaManager(val kafkaParams: Map[String, String],
           * 如果consumerOffsets比earliestLeaderOffsets还小的话，说明consumerOffsets已过时,
           * 这时把consumerOffsets更新为earliestLeaderOffsets
           */
+        //如果earliestLeader 存在
         if(earliestLeader.isRight) {
           //获取最早的offset 也就是最小的offset
           val earliestLeaderOffsets = earliestLeader.right.get
@@ -123,14 +127,15 @@ class KafkaManager(val kafkaParams: Map[String, String],
           // 将 consumerOffsets 和 earliestLeaderOffsets 的offsets 做比较
           // 可能只是存在部分分区consumerOffsets过时，所以只更新过时分区的consumerOffsets为earliestLeaderOffsets
           var offsets: Map[TopicAndPartition, Long] = Map()
+
           consumerOffsets.foreach({ case (tp, n) =>
             val earliestLeaderOffset = earliestLeaderOffsets(tp).offset
+            //如果消費者的偏移小于 kafka中最早的offset,那麽，將最早的offset更新到zk
             if (n < earliestLeaderOffset) {
               logWarning("consumer group:" + groupId + ",topic:" + tp.topic + ",partition:" + tp.partition +
                 " offsets已经过时，更新为" + earliestLeaderOffset)
               offsets += (tp -> earliestLeaderOffset)
             }
-
           })
           //设置offsets
           setOffsets(groupId, offsets)
@@ -211,6 +216,31 @@ class KafkaManager(val kafkaParams: Map[String, String],
   }
 
 
+  //(null,{"rksj":"1558178497","latitude":"24.000000","imsi":"000000000000000"})
+  //读取kafka流，并将json数据转为map
+  def createJsonToJMapObjectDirectStreamWithOffset(ssc:StreamingContext ,
+                                                   topicsSet:Set[String]): DStream[java.util.Map[String,Object]] = {
+
+
+    //一个转换器
+    val converter = {json:String =>
+
+      println(json)
+
+      var res : java.util.Map[String,Object] = null
+      try {
+        //JSON转map的操作
+        res = JSON.parseObject(json,
+          new TypeReference[java.util.Map[String, Object]]() {})
+      } catch {
+        case e: Exception => logError(s"解析topic ${topicsSet}, 的记录 ${json} 失败。", e)
+      }
+      res
+    }
+    createDirectStreamWithOffset(ssc, topicsSet, converter).filter(_ != null)
+  }
+
+
   /**
     * 根据converter创建流数据
     * @param ssc
@@ -245,6 +275,7 @@ class KafkaManager(val kafkaParams: Map[String, String],
   }
 
 
+/*
   /**
     *
     * @param ssc
@@ -268,9 +299,11 @@ class KafkaManager(val kafkaParams: Map[String, String],
     }
     createDirectStreamWithOffset(ssc, topicsSet, converter).filter(_ != null)
   }
+*/
 
 
 
+/*
   def createStringDirectStreamWithOffset(ssc:StreamingContext ,
                                          topicsSet:Set[String]): DStream[String] = {
 
@@ -279,26 +312,10 @@ class KafkaManager(val kafkaParams: Map[String, String],
     }
     createDirectStreamWithOffset(ssc, topicsSet, converter).filter(_ != null)
   }
+*/
 
 
 
-  def createJsonToJMapObjectDirectStreamWithOffset(ssc:StreamingContext ,
-                                                   topicsSet:Set[String]): DStream[java.util.Map[String,Object]] = {
-
-
-
-    val converter = {json:String =>
-      var res : java.util.Map[String,Object] = null
-      try {
-        res = com.alibaba.fastjson.JSON.parseObject(json,
-          new TypeReference[java.util.Map[String, Object]]() {})
-      } catch {
-        case e: Exception => logError(s"解析topic ${topicsSet}, 的记录 ${json} 失败。", e)
-      }
-      res
-    }
-    createDirectStreamWithOffset(ssc, topicsSet, converter).filter(_ != null)
-  }
 
 
   /**
@@ -312,7 +329,7 @@ class KafkaManager(val kafkaParams: Map[String, String],
     val converter = {json:String =>
       var res : java.util.Map[String,String] = null
       try {
-        res = com.alibaba.fastjson.JSON.parseObject(json, new TypeReference[java.util.Map[String, String]]() {})
+        res = JSON.parseObject(json, new TypeReference[java.util.Map[String, String]]() {})
       } catch {
         case e: Exception => logError(s"解析topic ${topicsSet}, 的记录 ${json} 失败。", e)
       }
@@ -349,10 +366,10 @@ object KafkaManager extends Logging{
 
   def apply(broker:String, groupId:String = "default",
             numFetcher:Int = 1, offset:String = "smallest",
-            autoUpdateoffset:Boolean = true): KafkaManager ={
+            autoUpdateOffset:Boolean = true): KafkaManager ={
     new KafkaManager(
       createKafkaParam(broker, groupId, numFetcher, offset),
-      autoUpdateoffset)
+      autoUpdateOffset)
   }
 
   def createKafkaParam(broker:String, groupId:String = "default",

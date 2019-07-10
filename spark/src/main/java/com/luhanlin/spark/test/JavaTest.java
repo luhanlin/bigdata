@@ -1,4 +1,4 @@
-package com.luhanlin.spark;
+package com.luhanlin.spark.test;
 
 /**
  * <类详细描述>

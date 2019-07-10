@@ -14,6 +14,7 @@
       <module>kafka</module>
       <module>flume</module>
       <module>spark</module>
+      <module>elasticsearch</module>
   </modules>
 
   <name>bigdata</name>
