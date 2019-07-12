@@ -4,15 +4,15 @@
 <configuration>
   <property>
     <name>dfs.namenode.name.dir</name>
-    <value>file:///data/dfs/nn</value>
+    <value>file:///dfs/nn</value>
   </property>
   <property>
     <name>dfs.namenode.servicerpc-address</name>
-    <value>master:8022</value>
+    <value>bigdata124:8022</value>
   </property>
   <property>
     <name>dfs.https.address</name>
-    <value>master:50470</value>
+    <value>bigdata124:50470</value>
   </property>
   <property>
     <name>dfs.https.port</name>
@@ -20,7 +20,7 @@
   </property>
   <property>
     <name>dfs.namenode.http-address</name>
-    <value>master:50070</value>
+    <value>bigdata124:50070</value>
   </property>
   <property>
     <name>dfs.replication</name>

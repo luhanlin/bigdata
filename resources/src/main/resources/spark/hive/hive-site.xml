@@ -4,7 +4,7 @@
 <configuration>
   <property>
     <name>hive.metastore.uris</name>
-    <value>thrift://hadoop-1:9083</value>
+    <value>thrift://bigdata124:9083</value>
   </property>
   <property>
     <name>hive.metastore.client.socket.timeout</name>
@@ -40,7 +40,7 @@
   </property>
   <property>
     <name>hive.server2.logging.operation.log.location</name>
-    <value>/hadoop_log/log/hive/operation_logs</value>
+    <value>/var/log/hive/operation_logs</value>
   </property>
   <property>
     <name>mapred.reduce.tasks</name>
@@ -136,11 +136,11 @@
   </property>
   <property>
     <name>hive.execution.engine</name>
-    <value>mr</value>
+    <value>spark</value>
   </property>
   <property>
     <name>spark.executor.memory</name>
-    <value>1369020825</value>
+    <value>912680550</value>
   </property>
   <property>
     <name>spark.driver.memory</name>
@@ -156,7 +156,7 @@
   </property>
   <property>
     <name>spark.yarn.executor.memoryOverhead</name>
-    <value>230</value>
+    <value>153</value>
   </property>
   <property>
     <name>spark.dynamicAllocation.enabled</name>
@@ -184,7 +184,7 @@
   </property>
   <property>
     <name>hive.zookeeper.quorum</name>
-    <value>hadoop-1,hadoop-3,hadoop-2</value>
+    <value>bigdata124,bigdata122,bigdata123</value>
   </property>
   <property>
     <name>hive.zookeeper.client.port</name>

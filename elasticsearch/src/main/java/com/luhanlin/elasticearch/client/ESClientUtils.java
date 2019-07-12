@@ -46,8 +46,8 @@ public class ESClientUtils implements Serializable{
                                 .put("cluster.name", clusterName)
                                 .put("client.transport.sniff",true).build();//开启自动嗅探功能
                         esClusterClient = new PreBuiltTransportClient(settings)
-                                .addTransportAddress(new TransportAddress(InetAddress.getByName(clusterNodes1), 9300))
-                                .addTransportAddress(new TransportAddress(InetAddress.getByName(clusterNodes2), 9300))
+//                                .addTransportAddress(new TransportAddress(InetAddress.getByName(clusterNodes1), 9300))
+//                                .addTransportAddress(new TransportAddress(InetAddress.getByName(clusterNodes2), 9300))
                                 .addTransportAddress(new TransportAddress(InetAddress.getByName(clusterNodes3), 9300));
                         LOG.info("esClusterClient========" + esClusterClient.listedNodes());
                     }catch (Exception e){

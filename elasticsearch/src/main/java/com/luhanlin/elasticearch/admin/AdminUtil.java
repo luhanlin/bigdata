@@ -20,7 +20,7 @@ public class AdminUtil {
 
     public static void main(String[] args) throws Exception{
         //创建索引核mapping
-        AdminUtil.buildIndexAndTypes("tanslator_test1111","tanslator_test1111", "es/mapping/test.json",3,1);
+        AdminUtil.buildIndexAndTypes("tanslator_test","tanslator_test", "es/mapping/test.json",3,1);
         //index = 类型+日期
 
     }

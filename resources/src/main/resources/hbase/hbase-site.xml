@@ -4,11 +4,7 @@
 <configuration>
   <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://master:8020/hbase</value>
-  </property>
-  <property>
-    <name>hbase.replication</name>
-    <value>true</value>
+    <value>hdfs://bigdata124:8020/hbase</value>
   </property>
   <property>
     <name>hbase.client.write.buffer</name>
@@ -104,7 +100,7 @@
   </property>
   <property>
     <name>hbase.zookeeper.quorum</name>
-    <value>slaver02,master,slaver01</value>
+    <value>bigdata124,bigdata122,bigdata123</value>
   </property>
   <property>
     <name>hbase.zookeeper.property.clientPort</name>
