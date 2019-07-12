@@ -19,7 +19,7 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -42,7 +42,8 @@ public class ESTest {
 
 		// 2 连接集群
 		client = new PreBuiltTransportClient(settings);
-		client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("192.168.134.121"), 9300));
+		client.addTransportAddress(new TransportAddress(InetAddress.getByName("192.168.134.121"), 9300));
+//		client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("192.168.134.121"), 9300));
 		// 所有test执行前都会执行此方法
 	}
 

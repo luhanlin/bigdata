@@ -15,6 +15,7 @@
       <module>flume</module>
       <module>spark</module>
       <module>elasticsearch</module>
+      <module>redis</module>
   </modules>
 
   <name>bigdata</name>
@@ -87,11 +88,11 @@
               <artifactId>kafka</artifactId>
               <version>${bigdata.version}</version>
           </dependency>
-          <!--<dependency>-->
-              <!--<groupId>com.luhanlin</groupId>-->
-              <!--<artifactId>redis</artifactId>-->
-              <!--<version>${bigdata.version}</version>-->
-          <!--</dependency>-->
+          <dependency>
+              <groupId>com.luhanlin</groupId>
+              <artifactId>redis</artifactId>
+              <version>${bigdata.version}</version>
+          </dependency>
       </dependencies>
   </dependencyManagement>
 

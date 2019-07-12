@@ -29,6 +29,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.luhanlin</groupId>
+            <artifactId>redis</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.10</artifactId>
             <version>${spark.version}-${cdh.version}</version>
