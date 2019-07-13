@@ -86,7 +86,7 @@ object WarningStreamingTask extends Serializable with Logging{
                 BlackRuleWarning.blackWarning(mapObject,jedis)
               }
           } catch {
-            case e => e.printStackTrace()
+            case e: Exception => e.printStackTrace()
           } finally {
             JedisSingle.close(jedis)
           }

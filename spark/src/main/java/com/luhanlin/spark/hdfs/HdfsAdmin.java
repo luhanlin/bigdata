@@ -36,7 +36,7 @@ public class HdfsAdmin {
     private HdfsAdmin(Configuration conf, Logger logger){
         try {
             if(conf == null) conf = newConf();
-            conf.set("fs.defaultFS","hdfs://hadoop-1:8020");
+            conf.set("fs.defaultFS","hdfs://bigdata124:8020");
             fs = FileSystem.get(conf);
         } catch (IOException e) {
             LOG.error("获取 hdfs的FileSystem出现异常。", e);
@@ -392,12 +392,11 @@ public class HdfsAdmin {
 
     public static void main(String[] args) throws Exception {
 
-        // HdfsAdmin hdfsAdmin = HdfsAdmin.get();
-       // hdfsAdmin.mkdir("hdfs://hdp04.ultiwill.com:8020/test1111");
-        //System.out.println(hdfsAdmin.getFs().exists(new Path("hdfs://hdp04.ultiwill.com:8020/test")));
-        //hdfsAdmin.delete("hdfs://hdp04.ultiwill.com:8020/test1111");
-        //System.out.println("hdfsAdmin = " + );
-       // List<FileStatus> status = hdfsAdmin.findNewDirInDir("hdfs://hdp04.ultiwill.com:50070/hdp", null);
-        //System.out.println("status = " + status.size());
+        HdfsAdmin hdfsAdmin = HdfsAdmin.get();
+        hdfsAdmin.mkdir("hdfs://bigdata124:8020/test1111");
+        System.out.println(hdfsAdmin.getFs().exists(new Path("hdfs://bigdata124:8020/test")));
+        hdfsAdmin.delete("hdfs://bigdata124:8020/test1111");
+        List<FileStatus> status = hdfsAdmin.findNewDirInDir("hdfs://bigdata124:50070/hdp", null);
+        System.out.println("status = " + status.size());
     }
 }

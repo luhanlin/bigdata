@@ -26,10 +26,10 @@ object CombineHdfs extends Serializable with Logging{
     HiveConfig.tables.foreach(table=>{
           //获取HDFS文件目录
         val table_path =s"${HiveConfig.hive_root_path}$table"  //apps/hive/warehouse/external/mail
-      //通过sparkSQL 加载 这些目录的文件
-      val tableDF = sqlContext.read.load(table_path)
+        //通过sparkSQL 加载 这些目录的文件
+        val tableDF = sqlContext.read.load(table_path)
         //先获取原来数据种的所有文件  HDFS文件 API
-      val fileSystem:FileSystem = HdfsAdmin.get().getFs
+        val fileSystem:FileSystem = HdfsAdmin.get().getFs
         //通过globStatus 获取目录下的正则匹配文件
         val arrayFileStatus = fileSystem.globStatus(new Path(table_path+"/part*"))
         //stat2Paths将文件状态转为文件路径   //这个文件路径是用来删除的

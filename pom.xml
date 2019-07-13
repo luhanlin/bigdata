@@ -16,6 +16,7 @@
       <module>spark</module>
       <module>elasticsearch</module>
       <module>redis</module>
+      <module>hbase</module>
   </modules>
 
   <name>bigdata</name>
@@ -91,6 +92,11 @@
           <dependency>
               <groupId>com.luhanlin</groupId>
               <artifactId>redis</artifactId>
+              <version>${bigdata.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>com.luhanlin</groupId>
+              <artifactId>hbase</artifactId>
               <version>${bigdata.version}</version>
           </dependency>
       </dependencies>
