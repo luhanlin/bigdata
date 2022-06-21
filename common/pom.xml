@@ -31,7 +31,7 @@
         <commons-httpclient.version>3.1</commons-httpclient.version>
         <commons.collections4.version>4.1</commons.collections4.version>
         <commons.configuration.version>1.6</commons.configuration.version>
-        <mysql.connector.version>5.1.38</mysql.connector.version>
+        <mysql.connector.version>8.0.28</mysql.connector.version>
         <commons-dbutils.version>1.6</commons-dbutils.version>
     </properties>
 
